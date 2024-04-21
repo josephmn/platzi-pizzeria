@@ -4,9 +4,7 @@ import com.platzi.pizza.persistence.entity.PizzaEntity;
 import com.platzi.pizza.service.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,8 +24,15 @@ public class PizzaController {
         return ResponseEntity.ok(this.pizzaService.getAll());
     }
 
+    /*
     @GetMapping("/inactive")
     public ResponseEntity<List<PizzaEntity>> getAllInactive() {
         return ResponseEntity.ok(this.pizzaService.getAllInactive());
+    }
+     */
+
+    @GetMapping("/{idPizza}")
+    public ResponseEntity<PizzaEntity> get(@PathVariable int idPizza) {
+        return ResponseEntity.ok(this.pizzaService.get(idPizza));
     }
 }
