@@ -4,6 +4,7 @@ import com.platzi.pizza.persistence.entity.PizzaEntity;
 import com.platzi.pizza.persistence.repository.PizzaPagSortRepository;
 import com.platzi.pizza.persistence.repository.PizzaRepository;
 import com.platzi.pizza.service.dto.UpdatePizzaPriceDto;
+import com.platzi.pizza.service.exception.EmailApiException;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.jdbc.core.BeanPropertyRowMapper;
 //import org.springframework.jdbc.core.JdbcTemplate;
@@ -117,9 +118,17 @@ public class PizzaService {
         this.pizzaRepository.deleteById(idPizza);
     }
 
-    @Transactional
+    @Transactional(noRollbackFor = EmailApiException.class)
     public void updatePrice(UpdatePizzaPriceDto dto) {
         this.pizzaRepository.updatePrice(dto);
+        this.sendEmail();
+    }
+
+    /*
+     * example using @Transactional for sending email
+     */
+    public void sendEmail() {
+        throw new EmailApiException();
     }
 
     public boolean exists(int idPizza) {
