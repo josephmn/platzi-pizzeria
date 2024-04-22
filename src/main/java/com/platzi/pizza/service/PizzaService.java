@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -61,16 +62,33 @@ public class PizzaService {
         return this.pizzaRepository.findAllByAvailableTrueOrderByPrice();
     }
 
+    public Page<PizzaEntity> getAvailablePage(int page, int elements, String sortBy, String sortDirection) {
+        /*
+         * First example: with int page, int elements, String sortBy
+         */
+        /*
+        Pageable pageRequest = PageRequest.of(page, elements, Sort.by(sortBy));
+        return this.pizzaPagSortRepository.findByAvailableTrue(pageRequest);
+         */
+
+        /*
+         * Second example: with int page, int elements, String sortBy, String sortDirection
+         */
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
+        Pageable pageRequest = PageRequest.of(page, elements, sort);
+        return this.pizzaPagSortRepository.findByAvailableTrue(pageRequest);
+    }
+
     public List<PizzaEntity> getByName(String name) {
         return this.pizzaRepository.findAllByAvailableTrueAndNameIgnoreCase(name);
     }
 
     public PizzaEntity getByNameFirst(String name) {
         /*
-        * Use optional in program functional
+         * Use optional in program functional
          */
         //return this.pizzaRepository.findFirstByAvailableTrueAndNameIgnoreCase(name).orElse(null);
-        return this.pizzaRepository.findFirstByAvailableTrueAndNameIgnoreCase(name).orElseThrow(()-> new RuntimeException("Pizza not exists"));
+        return this.pizzaRepository.findFirstByAvailableTrueAndNameIgnoreCase(name).orElseThrow(() -> new RuntimeException("Pizza not exists"));
     }
 
     public List<PizzaEntity> getWith(String ingredient) {
