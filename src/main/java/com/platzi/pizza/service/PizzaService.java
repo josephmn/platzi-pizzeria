@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PizzaService {
@@ -54,12 +55,24 @@ public class PizzaService {
         return this.pizzaRepository.findAllByAvailableTrueAndNameIgnoreCase(name);
     }
 
+    public PizzaEntity getByNameFirst(String name) {
+        /*
+        * Use optional in program functional
+         */
+        //return this.pizzaRepository.findFirstByAvailableTrueAndNameIgnoreCase(name).orElse(null);
+        return this.pizzaRepository.findFirstByAvailableTrueAndNameIgnoreCase(name).orElseThrow(()-> new RuntimeException("Pizza not exists"));
+    }
+
     public List<PizzaEntity> getWith(String ingredient) {
         return this.pizzaRepository.findAllByAvailableTrueAndDescriptionContainingIgnoreCase(ingredient);
     }
 
     public List<PizzaEntity> getWithout(String ingredient) {
         return this.pizzaRepository.findAllByAvailableTrueAndDescriptionNotContainingIgnoreCase(ingredient);
+    }
+
+    public List<PizzaEntity> getCheapest(double price) {
+        return this.pizzaRepository.findTop3ByAvailableTrueAndPriceLessThanEqualOrderByPriceAsc(price);
     }
 
     public PizzaEntity get(int idPizza) {

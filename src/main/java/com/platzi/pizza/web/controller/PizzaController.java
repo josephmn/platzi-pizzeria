@@ -46,6 +46,11 @@ public class PizzaController {
         return ResponseEntity.ok(this.pizzaService.getByName(name));
     }
 
+    @GetMapping("/first/{name}")
+    public ResponseEntity<PizzaEntity> getByNameFirst(@PathVariable String name) {
+        return ResponseEntity.ok(this.pizzaService.getByNameFirst(name));
+    }
+
     @GetMapping("/with/{ingredient}")
     public ResponseEntity<List<PizzaEntity>> getWith(@PathVariable String ingredient) {
         return ResponseEntity.ok(this.pizzaService.getWith(ingredient));
@@ -54,6 +59,11 @@ public class PizzaController {
     @GetMapping("/without/{ingredient}")
     public ResponseEntity<List<PizzaEntity>> getWithout(@PathVariable String ingredient) {
         return ResponseEntity.ok(this.pizzaService.getWithout(ingredient));
+    }
+
+    @GetMapping("/cheapest/{price}")
+    public ResponseEntity<List<PizzaEntity>> getCheapestPizzas(@PathVariable double price) {
+        return ResponseEntity.ok(this.pizzaService.getCheapest(price));
     }
 
     @PostMapping
