@@ -15,4 +15,14 @@ public interface PizzaRepository extends ListCrudRepository<PizzaEntity, Integer
      * Query Method -> Pizza by Name
      */
     List<PizzaEntity> findAllByAvailableTrueAndNameIgnoreCase(String name);
+
+    /*
+     * Query Method -> Search Ingredient in Pizza
+     */
+    List<PizzaEntity> findAllByAvailableTrueAndDescriptionContainingIgnoreCase(String description);
+
+    /*
+     * Query Method -> Search Ingredient not in Pizza
+     */
+    List<PizzaEntity> findAllByAvailableTrueAndDescriptionNotContainingIgnoreCase(String description);
 }
